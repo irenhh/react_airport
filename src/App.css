@@ -1,33 +1,126 @@
-.App {
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #e7efec;
+}
+
+.App__title {
   text-align: center;
+  margin: 30px 0;
+  font-size: 40px;
+  font-weight: 300;
+  text-transform: uppercase;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.App__search {
+  margin: 0 auto 30px;
+  width: 50vw;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.App__search-input {
+  width: 80%;
+  height: 40px;
+  padding: 0 20px;
+  outline: none;
+  font-size: 18px;
+  border: 0;
+}
+
+.App__search-button {
+  height: 40px;
+  border: 0;
+  width: 20%;
+  outline: none;
+  background: #7bd6b4;
   color: white;
+  font-weight: 600;
+  font-size: 18px;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.App__search-button:hover {
+  border-radius: 0 50px 0 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.tabs {
+  width: 80vw;
+  margin: 0 auto;
+  border-radius: 20px;
+  border-collapse: collapse;
+}
+
+.tabs__list {
+  display: flex;
+  padding: 0;
+}
+
+.tabs__list-item {
+  list-style: none;
+  flex: 1 1 auto;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  background: #7bd6b4;
+  color: white;
+  cursor: pointer;
+  border-radius: 50px 50px 0 0;
+  font-weight: 600;
+  font-size: 25px;
+}
+
+.tabs__list-item:first-child {
+  margin-right: -90px;
+}
+
+.tabs__list-item--active {
+  background: white;
+  z-index: 1;
+  color: #7bd6b4;
+}
+
+.tabs__content {
+  background: white;
+  padding: 20px 0;
+}
+
+.tabs__content-day {
+  margin-left: 40px;
+  margin-bottom: 20px;
+}
+
+.tabs__content-day button {
+  background: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: darkgray;
+  border: 0;
+  line-height: 20px;
+  outline: none;
+}
+
+.tabs__content-day .day-active {
+  border-bottom: 2px solid #7bd6b4;
+}
+
+td, th {
+  padding: 10px;
+}
+
+th {
+  color: darkgray;
+  text-align: left;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+tbody tr:nth-of-type(odd) {
+  background: #7bd6b4;
+  color: white;
 }
