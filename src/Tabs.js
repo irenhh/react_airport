@@ -2,6 +2,8 @@ import React from 'react';
 import DepartureTable from './DepartureTable';
 import ArrivalTable from './ArrivalTable';
 
+const columnNames = ['Terminal', 'Local time', 'Destination', 'Status', 'Airline', 'Flight'];
+
 class Tabs extends React.Component {
   state = {
     tabShown: 'departures',
@@ -10,7 +12,7 @@ class Tabs extends React.Component {
 
   getTime = (string) => {
     const initialHour = String(new Date(string).getHours());
-    const modifiedHour = ((initialHour).length < 2) ? `0${initialHour}` : `${initialHour}`;
+    const modifiedHour = initialHour.padStart(2, '0')
     const localMinute = string.match(/(?<=:)\d\d(?!Z)/);
 
     return `${modifiedHour}:${localMinute}`;
@@ -21,23 +23,32 @@ class Tabs extends React.Component {
   changeDay = (day) => this.setState({ dayOfFlight: day });
 
   modifyFlightsByDate = (date, array) => {
+    const calcDate = (date, value) => {
+      let currentDate = date;
+      currentDate.setDate(currentDate.getDate() + value);
+
+      return currentDate.getDate();
+    }
+
+    const filterCallback = (item, dayVal) => {
+      return new Date(item.timeDepShedule || item.timeToStand).getDate() === (calcDate(new Date(), dayVal));
+    }
+
     switch (date) {
       case 'yesterday':
-        return array.filter(flight => new Date(flight.timeDepShedule || flight.timeToStand).getDate() === (new Date().getDate() - 1));
+        return array.filter(flight => filterCallback(flight, -1));
 
       default:
       case 'today':
-        return array.filter(flight => new Date(flight.timeDepShedule || flight.timeToStand).getDate() === new Date().getDate());
+        return array.filter(flight => filterCallback(flight, 0));
 
       case 'tomorrow':
-        return array.filter(flight => new Date(flight.timeDepShedule || flight.timeToStand).getDate() === (new Date().getDate() + 1));
+        return array.filter(flight => filterCallback(flight, 1));
     }
   }
 
   render() {
     const { departuresToShow, arrivalsToShow } = this.props;
-
-    const columnNames = ['Terminal', 'Local time', 'Destination', 'Status', 'Airline', 'Flight'];
 
     const departuresSorted = [...departuresToShow]
       .sort((a, b) => this.getTime(a.timeDepShedule).localeCompare(this.getTime(b.timeDepShedule)));

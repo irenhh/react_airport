@@ -48,29 +48,20 @@ class Schedule extends React.Component {
       let updatedDepartures = prevState.departures;
       let updatedArrivals = prevState.arrivals;
 
-      updatedDepartures = updatedDepartures.filter((item) => {
+      function filterFlights(arrayItem) {
         const dataToFilter = (
-          item['airportToID.city_en']
-          + item.codeShareData.map(airline => airline.airline.en.name)
-          + item.codeShareData.map(flight => flight.codeShare)
+          (arrayItem['airportToID.city_en'] || arrayItem['airportFromID.city_en'])
+          + arrayItem.codeShareData.map(airline => airline.airline.en.name)
+          + arrayItem.codeShareData.map(flight => flight.codeShare)
         );
 
         return dataToFilter.toLowerCase().search(
           prevState.filterInput.toLowerCase()
         ) !== -1;
-      });
+      }
 
-      updatedArrivals = updatedArrivals.filter((item) => {
-        const dataToFilter = (
-          item['airportFromID.city_en']
-          + item.codeShareData.map(airline => airline.airline.en.name)
-          + item.codeShareData.map(flight => flight.codeShare)
-        );
-
-        return dataToFilter.toLowerCase().search(
-          prevState.filterInput.toLowerCase()
-        ) !== -1;
-      });
+      updatedDepartures = updatedDepartures.filter(item => filterFlights(item));
+      updatedArrivals = updatedArrivals.filter(item => filterFlights(item));
 
       return {
         departuresToShow: updatedDepartures,
@@ -95,15 +86,14 @@ class Schedule extends React.Component {
           />
 
           <button
-            type="button"
+            type="submit"
             className="App__search-button"
-            onSubmit={this.filter}
           >
             Search
           </button>
         </form>
 
-        {(departuresToShow.length > 0 && arrivalsToShow.length > 0) && (
+        {(departuresToShow.length > 0 || arrivalsToShow.length > 0) && (
           <Tabs
             departuresToShow={departuresToShow}
             arrivalsToShow={arrivalsToShow}

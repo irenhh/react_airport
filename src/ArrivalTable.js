@@ -14,7 +14,7 @@ function ArrivalTable(props) {
 
   const flights = codeShareData.map(item => item.codeShare);
   const airlines = codeShareData.map(item => item.airline.en.name);
-  
+
   const initialTime = getTime(timeToStand);
   const localTime = initialTime[0] === '0' ? initialTime.slice(1) : initialTime;
 
@@ -24,8 +24,8 @@ function ArrivalTable(props) {
       <td>{localTime}</td>
       <td>{destination}</td>
       <td>{status}</td>
-      <td>{airlines.map(item => <p>{item}</p>)}</td>
-      <td>{flights.map(item => <p>{item}</p>)}</td>
+      <td>{airlines.map((item, i) => <p key={i}>{item}</p>)}</td>
+      <td>{flights.map((item, i) => <p key={i}>{item}</p>)}</td>
     </tr>
   );
 }
